@@ -1,0 +1,10 @@
+*.class
+*.jar
+!gradle-wrapper.jar
+.gradle/
+hs_err_pid*
+out/
+*.iml
+build/
+*.idea/*
+.env

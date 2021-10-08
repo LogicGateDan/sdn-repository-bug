@@ -1,0 +1,9 @@
+neo4j:
+  database: ${NEO4J_DATABASE:}
+  driver: org.neo4j.ogm.drivers.bolt.driver.BoltDriver
+  enabled: true
+  open-in-view: true
+  password: ${NEO4J_PASSWORD:}
+  pool-size: 150
+  username: ${NEO4J_USERNAME:}
+  url: ${NEO4J_URL:}

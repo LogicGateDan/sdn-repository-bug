@@ -1,0 +1,53 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath "org.springframework.boot:spring-boot-gradle-plugin:2.5.5"
+  }
+}
+
+apply plugin: "idea"
+apply plugin: "io.spring.dependency-management"
+apply plugin: "java"
+apply plugin: "application"
+apply plugin: "org.springframework.boot"
+
+sourceCompatibility = 11
+targetCompatibility = 11
+group = "com.logicgate.sample"
+version = "0.0.1"
+
+repositories {
+  mavenCentral()
+}
+
+sourceSets {
+  main.java.srcDirs = ["src/main/java"]
+  test.java.srcDirs = ["src/test/java"]
+}
+
+idea {
+  module {
+    inheritOutputDirs = true
+  }
+}
+
+tasks.named("wrapper") {
+  distributionType = Wrapper.DistributionType.ALL
+  gradleVersion = "7.2"
+}
+
+dependencies {
+  compileOnly "org.projectlombok:lombok:1.18.20"
+  annotationProcessor "org.projectlombok:lombok:1.18.20"
+  implementation "org.springframework.boot:spring-boot-starter-data-neo4j:2.5.5"
+  testImplementation "org.springframework.boot:spring-boot-starter-test:2.5.5"
+  testImplementation "org.projectlombok:lombok:1.18.20"
+  testImplementation "org.assertj:assertj-core:3.21.0"
+}
+
+test {
+  useJUnitPlatform()
+}
