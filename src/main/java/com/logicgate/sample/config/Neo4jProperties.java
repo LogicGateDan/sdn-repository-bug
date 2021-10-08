@@ -13,15 +13,15 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "neo4j")
 public class Neo4jProperties {
 
-    private String certPath;
+  private String certPath;
 
-    private String database;
+  private String database;
 
-    private String password;
+  private String password;
 
-    private Integer poolSize;
+  private Integer poolSize;
 
-    private String url;
+  private String url;
 
-    private String username;
+  private String username;
 }

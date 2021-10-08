@@ -9,18 +9,16 @@ import org.springframework.data.neo4j.core.schema.Property;
 
 @Getter
 @Setter
-@Node("Child")
+@Node("GoodPerson")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Child extends Parent {
-
-  private static final long serialVersionUID = 1016247578229462447L;
+public class GoodPerson extends Person {
 
   @Property
-  private final String name;
+  private final String favoriteCharity;
 
-  public Child(String id, String name) {
+  public GoodPerson(String id, String favoriteCharity) {
     super(id);
-    this.name = name;
+    this.favoriteCharity = favoriteCharity;
   }
 }

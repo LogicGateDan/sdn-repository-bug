@@ -1,0 +1,32 @@
+# EditorConfig helps developers define and maintain consistent
+# coding styles between different editors and IDEs
+# editorconfig.org
+
+root = true
+
+[*]
+
+indent_style = space
+indent_size = 2
+
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+max_line_length = 120
+
+[*.java]
+continuation_indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{kt,kts}]
+disabled_rules = indent
+
+# default IntelliJ IDEA style
+#
+# alphabetical with capital letters before lower case letters (e.g. Z before a), no blank lines,
+# "java", "javax", "kotlin" and alias imports in the end of the imports list
+ij_kotlin_imports_layout=*,java.**,javax.**,kotlin.**,^

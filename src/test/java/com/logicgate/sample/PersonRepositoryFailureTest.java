@@ -1,11 +1,15 @@
-package com.logicgate.sample.repository;
+package com.logicgate.sample;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.logicgate.sample.Application;
 import com.logicgate.sample.config.Neo4jConfig;
 import com.logicgate.sample.config.Neo4jProperties;
-import com.logicgate.sample.domain.Child;
+import com.logicgate.sample.domain.EvilPerson;
+import com.logicgate.sample.domain.GoodPerson;
+import com.logicgate.sample.domain.Person;
+import com.logicgate.sample.repository.PersonRepository;
+import java.util.Collection;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,21 +30,22 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
         Application.class,
         Neo4jConfig.class,
         Neo4jProperties.class,
-        ChildRepository.class
+        PersonRepository.class
     }
 )
-@EnableNeo4jRepositories(basePackageClasses = ChildRepository.class)
-public class ChildRepositoryTest {
+@EnableNeo4jRepositories(basePackageClasses = PersonRepository.class)
+public class PersonRepositoryFailureTest {
 
   @Autowired
-  private ChildRepository childRepository;
+  private PersonRepository personRepository;
 
   @Autowired
   private Neo4jClient neo4jClient;
 
   @BeforeEach
   public void setup() {
-    neo4jClient.query("CREATE (child:Child {id: 'child-1', name: 'child entity'});").run();
+    neo4jClient.query("CREATE (:Person:GoodPerson {id: 'p-1', favoriteCharity: 'helpful stuff'}), "
+        + "(:Person:EvilPerson {id: 'p-2', favoriteMischief: 'mean stuff'});").run();
   }
 
   @AfterEach
@@ -48,10 +53,15 @@ public class ChildRepositoryTest {
     neo4jClient.query("MATCH (n) DETACH DELETE n;").run();
   }
 
+  /**
+   * This seems like it should work, but it doesn't. See PersonRepositorySuccess* tests for two modifications to the
+   * test that enable it to success. Both are inconvenient for different reasons.
+   */
   @Test
-  public void findById() {
-    Child expected = new Child("child-1", "child entity");
-    Child child = childRepository.findChildById("child-1");
-    assertThat(child).isEqualTo(expected);
+  public void findPeopleByIdsIn() {
+    GoodPerson expectedGood = new GoodPerson("p-1", "helpful stuff");
+    EvilPerson expectedEvil = new EvilPerson("p-2", "mean stuff");
+    Collection<Person> people = personRepository.findPeopleByIdsIn(List.of(expectedGood.getId(), expectedEvil.getId()));
+    assertThat(people).containsExactlyInAnyOrder(expectedGood, expectedEvil);
   }
 }
